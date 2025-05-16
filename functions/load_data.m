@@ -9,4 +9,5 @@ function [u, f, U] = load_data(filename, Nsamples)
     data = data(1:N);
     U = mean(data);
     u = data - U;
+    u = flip(u);
 end

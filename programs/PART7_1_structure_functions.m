@@ -11,19 +11,19 @@ Nsamples = Inf;      % Size of the dataset for processing
 
 %% ====> Parameters to be filled <====
 
-scaling.S2_exp  = 0;   % scaling exponents
-scaling.S3_exp  = 0;
+scaling.S2_exp  = 2/3;   % scaling exponents
+scaling.S3_exp  = 1;
 
-params(1).lambda = 0.1; 
-params(1).L_C    = 0.2;    
+params(1).lambda = 0.0134; 
+params(1).L_C    = 0.2814;    
 
-params(2).lambda = 0.1;
-params(2).L_C    = 0.2;
+params(2).lambda = 0.0101;
+params(2).L_C    = 0.3402;
 
-params(3).lambda = 0.1;
-params(3).L_C    = 0.2;
+params(3).lambda = 0.0092;
+params(3).L_C    = 0.4002;
 
-warning('Make sure to fill in the relevant values!');
+%warning('Make sure to fill in the relevant values!');
 
 %% --- Common setup ---
 Num   = 100;
@@ -59,7 +59,7 @@ end
 loglog(l_S2, 15 * l_S2.^scaling.S2_exp, 'k--', 'linewidth', 1);
 xlim([min(l_S2) max(l_S2)]);
 ylim([5e-3 100]);
-xlabel('$l\;[m]$', 'Interpreter', 'latex', 'fontsize', 14);
+xlabel('$l$ [m]', 'Interpreter', 'latex', 'fontsize', 14);
 ylabel('$S_2(l)\;[m^2/s^2]$', 'Interpreter', 'latex', 'fontsize', 14);
 legend({'data1', 'data2', 'data3', 'scaling'}, 'Interpreter', 'latex', 'fontsize', 12);
 
@@ -72,7 +72,7 @@ for i = 1:3
         'Interpreter', 'latex', 'fontsize', 10, ...
         'LabelVerticalAlignment', 'bottom', 'HandleVisibility', 'off');
 end
-
+exportgraphics(gcf, '../figures/S2.png', 'Resolution',600)
 
 %% --- Plot S3 ---
 figure;
@@ -96,3 +96,4 @@ for i = 1:3
         'Interpreter', 'latex', 'fontsize', 10, ...
         'LabelVerticalAlignment', 'bottom', 'HandleVisibility', 'off');
 end
+exportgraphics(gcf, '../figures/S3.png', 'Resolution',600)

@@ -35,9 +35,13 @@ params(3).dl = U3 * 1/params(3).f;
 lmax_autocorr = 10;
 
 % Normalized autocorrelation computation
-C1 = autocorrelation(u1+U1, params(1).dl, lmax_autocorr) * 1/mean(u1.^2);
-C2 = autocorrelation(u2+U2, params(2).dl, lmax_autocorr) * 1/mean(u2.^2);
-C3 = autocorrelation(u3+U3, params(3).dl, lmax_autocorr) * 1/mean(u3.^2);
+params(1).Cl = autocorrelation(u1+U1, params(1).dl, lmax_autocorr) * 1/mean(u1.^2);
+params(2).Cl = autocorrelation(u2+U2, params(2).dl, lmax_autocorr) * 1/mean(u2.^2);
+params(3).Cl = autocorrelation(u3+U3, params(3).dl, lmax_autocorr) * 1/mean(u3.^2);
+
+C1 = params(1).Cl;
+C2 = params(2).Cl;
+C3 = params(3).Cl;
 %warning('Make sure to correctly normalize the autocorrelation !');
 
 % Length vectors
@@ -49,6 +53,11 @@ l1 = 0:dl1:(params(1).dl*(length(C1) - 1));
 l2 = 0:dl2:(params(2).dl*(length(C2) - 1));
 l3 = 0:dl3:(params(3).dl*(length(C3) - 1));
 
+params(1).l = l1;
+params(2).l = l2;
+params(3).l = l3;
+
+
 % Find intersections
 threshold = exp(-1);
 params(1).L_C = l1(find(C1 <= threshold, 1));
@@ -57,7 +66,7 @@ params(3).L_C = l3(find(C3 <= threshold, 1));
 %warning('Make sure to fill Lc properly')
 
 %% --- Plot B ---
-lmax_plot = 1.1;
+lmax_plot = 1;
 lmax_idx1 = find(l1 >= lmax_plot, 1);
 lmax_idx2 = find(l2 >= lmax_plot, 1);
 lmax_idx3 = find(l3 >= lmax_plot, 1);
@@ -79,8 +88,8 @@ plot(l3(1:lmax_idx3), C3(1:lmax_idx3))
 plot([0, l1(lmax_idx1)], 1 / exp(1) * [1, 1], ':k')
 grid on;
 
-xlabel('$l$', 'Interpreter', 'latex', 'FontSize', 14)
-ylabel('$C_{i}(l)$', 'Interpreter', 'latex', 'FontSize', 14)
+xlabel('$l$ [m]', 'Interpreter', 'latex', 'FontSize', 14)
+ylabel('$C_{i}(l)$ [-]', 'Interpreter', 'latex', 'FontSize', 14)
 
 % Add LCi to plots
 for i = 1:1:3
@@ -91,7 +100,7 @@ end
 
 legend({'$C_1(l)$', '$C_2(l)$', '$C_3(l)$', '$e^{-1}$'}, ...
     'Interpreter', 'latex', 'FontSize', 14)
-
+exportgraphics(gcf, '../figures/cl.png','Resolution', 600)
 
 %% --- Integral scale ---
 lmax_plot = 100;    % Initial value: 5
@@ -109,17 +118,20 @@ if isempty(lmax_idx3)
 end
 
 % 1.2.3 Cumulative integral
-%Lint_cum1 = 1:1:lmax_idx1;
-%Lint_cum2 = 1:1:lmax_idx2;
-%Lint_cum3 = 1:1:lmax_idx3;
 Lint_cum1 = cumtrapz(l1,C1);
 Lint_cum2 = cumtrapz(l2,C2);
 Lint_cum3 = cumtrapz(l3,C3);
 
-params(1).Lint = trapz(l1, C1);
-params(2).Lint = trapz(l2, C2);
-params(3).Lint = trapz(l3, C3);
-warning('Make sure to fill the cumulative integral properly')
+ 
+% Computation of the integral scale
+for i=1:3
+    Ci = params(i).Cl;
+    li = params(i).l;
+    linf = li(1:find(Ci<0, 1));
+    Cl = Ci(1:find(Ci<0, 1));
+    params(i).Lint = trapz(linf, Cl);
+end
+
 
 % Plotting
 figure();
@@ -128,8 +140,8 @@ plot(l1(1:lmax_idx1), Lint_cum1)
 plot(l2(1:lmax_idx2), Lint_cum2)
 plot(l3(1:lmax_idx3), Lint_cum3)
 
-xlabel('$l$', 'Interpreter', 'latex', 'FontSize', 14)
-ylabel('$\int_0^l  \,C_i (s) \,ds $', 'Interpreter', 'latex', ...
+xlabel('$l$ [m]', 'Interpreter', 'latex', 'FontSize', 14)
+ylabel('$\int_0^l  \,C_i (s) \,ds $ [m]', 'Interpreter', 'latex', ...
         'FontSize', 14)
 
 for i = 1:1:3
@@ -141,3 +153,10 @@ end
 legend({'$\int_0^lC_1(s)ds$', '$\int_0^lC_2(s)ds$', '$\int_0^lC_3(s)ds$', ...
     }, ...
     'Interpreter', 'latex', 'Location', 'southwest', 'FontSize', 14)
+exportgraphics(gcf, '../figures/lint.png','Resolution', 600)
+
+%% Error computations
+for i=1:3
+    params(i).error = abs((params(i).L_C - params(i).Lint)/params(i).L_C);
+    params(i).error*100
+end

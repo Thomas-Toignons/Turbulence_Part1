@@ -28,17 +28,19 @@ for j = 1:3  % dataset loop
 
         % Axes labels
         if j == 3
-            xlabel('$x\;[m]$', 'Interpreter', 'latex', 'fontsize', 14);
+            xlabel('$x$ [m]', 'Interpreter', 'latex', 'fontsize', 14);
         end
         if i == 1
-            ylabel('$\delta v_{||}\;[m/s]$', 'Interpreter', 'latex', 'fontsize', 14);
+            ylabel('$\delta v_{||}$ [m/s]', 'Interpreter', 'latex', 'fontsize', 14);
         end
 
         % Title
-        subplot_title = ['$l=', num2str(l(i)), '\;m$'];
+        subplot_title = ['$l=', num2str(l(i)), '\;\mathrm{m}$'];
         title(subplot_title, 'Interpreter', 'latex', 'fontsize', 12);
 
         % print mean increment (should be ~0)
         disp(['Dataset ', num2str(j), ', l = ', num2str(l(i)), ': mean = ', num2str(mean(d))]);
     end
 end
+
+exportgraphics(gcf, '../figures/vel_increment.png','Resolution', 600);

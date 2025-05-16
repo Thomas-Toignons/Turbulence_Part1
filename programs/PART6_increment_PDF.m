@@ -53,7 +53,7 @@ for k = 1:3
 
             % Axis labels
             if i == 3 || i == 4
-                xlabel('$\delta v_{||}\;[m/s]$', 'Interpreter', 'latex', 'fontsize', 14);
+                xlabel('$\delta v_{||}\;[\mathrm{m/s}]$', 'Interpreter', 'latex', 'fontsize', 14);
             end
             if i == 1 || i == 3
                 ylabel('$P(\delta v_{||})$', 'Interpreter', 'latex', 'fontsize', 14);
@@ -64,7 +64,7 @@ for k = 1:3
                 legend('Dataset PDF', 'Gaussian', 'Interpreter', 'latex', 'fontsize', 11); 
             end
 
-            title(['$l=', num2str(l(i)), '\;m$'], 'Interpreter', 'latex', 'fontsize', 14);
+            title(['$l=', num2str(l(i)), '\;\mathrm{m}$'], 'Interpreter', 'latex', 'fontsize', 14);
         end
 
             if y_axis == 1

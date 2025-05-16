@@ -1,7 +1,6 @@
 clc;
 clear;
 
-
 addpath("../functions/");
 
 %% --- Common Setup ---
@@ -43,10 +42,14 @@ hold on; grid on;
 plot(params(1).x, u1 + params(1).U)
 plot(params(2).x, u2 + params(2).U)
 plot(params(3).x, u3 + params(3).U)
+xlim([0, 34])
 
-xlabel('$x$', 'Interpreter', 'latex', 'FontSize', 14)
-ylabel('$U(x)$', 'Interpreter', 'latex', 'FontSize', 14)
-legend({'$U_1$', '$U_2$', '$U_3$'}, 'Interpreter', 'latex', 'FontSize', 14)
+xlabel('$x$ [m]', 'Interpreter', 'latex', 'FontSize', 14)
+ylabel('$u_{tot}(x)$ [m/s]', 'Interpreter', 'latex', 'FontSize', 14)
+lgd = legend({'$1$', '$2$', '$3$'}, 'Interpreter', 'latex', 'FontSize', 14);
+title(lgd, 'Dataset')
+exportgraphics(gcf, '../figures/velocity.png','Resolution', 600)
+
 
 %% --- Turbulence intensity ---
 params(1).TI = rms(u1)/U1;

@@ -6,5 +6,13 @@ function S = structure_function(u, l, f, U, n)
     % n : order of the structure function
     % S : vector of the structure function [m/s]
 
-    error('Implement the structure_function function!');
+    S = 0.*l;
+    
+    for i=1:length(l)
+        li = l(i);
+        [~, d] = increment(u,li,f,U);
+        S(i) = mean(d.^n);
+    end
+    %[~, d] = increment(u, l, f, U);
+    %S = mean(d.^n);
 end

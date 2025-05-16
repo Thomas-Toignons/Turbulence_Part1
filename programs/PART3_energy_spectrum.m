@@ -35,7 +35,9 @@ L3 = l3(N);
 
 %% --- Energy spectrum ---
 % Put in prefactors
-norm1 = L1/(2*pi*N^2);
+
+norm1 = dl1^2/(2*pi*L1);
+%norm1 = L1/(2*pi*N^2);
 norm2 = L2/(2*pi*N^2);
 norm3 = L3/(2*pi*N^2);
 %warning('Make sure to have properly written the normalization')
@@ -46,9 +48,9 @@ Ek3 = spectral_energy_density(u3) * norm3;
 
 % Define E(k), k > 0
 % We just remove the first value of the energy spectrum, associated to k=0
-Ek1 = Ek1(2:end);
-Ek2 = Ek2(2:end);
-Ek3 = Ek3(2:end);
+Ek1 = 2*Ek1(2:end);
+Ek2 = 2*Ek2(2:end);
+Ek3 = 2*Ek3(2:end);
 
 % Define the wave number/scales
 k1 = 2*pi/L1 * (1:N/2);
@@ -57,7 +59,7 @@ k3 = 2*pi/L3 * (1:N/2);
 warning('Define E(k), k > 0 properly, and the k vectors as well')
 
 % Signal filtering
-span = 0.001;
+span = 0.00005;
 method = 'moving';
 
 Ek1_smooth = smooth(Ek1,span,method);
@@ -74,7 +76,7 @@ loglog(k2, Ek2_smooth, 'DisplayName', 'Data 2')
 loglog(k3, Ek3_smooth, 'DisplayName', 'Data 3')
 
 % Add K41 scaling predictions
-loglog(1:1:1000, (1:1:1000).^(-5/3), '--k', 'DisplayName', 'K41 prediction')
+loglog(1:1:1000,5*(1:1:1000).^(-5/3), '--k', 'DisplayName', 'K41 prediction')
 %warning('Make sure that you add the proper prediction')
 
 % Add estimates for integral and Kolmogorov length scales
@@ -88,8 +90,8 @@ params(3).Lint_e = 2*pi * (4)^-1;
 %    'Kolmogorov length scales'])
 
 % Labels
-xlabel('$k$', 'Interpreter', 'latex')
-ylabel('$E(k)$', 'Interpreter', 'latex')
+xlabel('$k$ [m$^{-1}$]', 'Interpreter', 'latex')
+ylabel('$E(k) [\mathrm{m}^3 \mathrm{s}^{-2}]$', 'Interpreter', 'latex')
 legend('Interpreter', 'latex')
 
 % Plot correlation length scales Lci
@@ -102,6 +104,8 @@ for i = 1:1:3
         'Interpreter', 'latex', 'fontsize', 10, ...
         'LabelVerticalAlignment', 'bottom', 'HandleVisibility', 'off');
 end
+
+exportgraphics(gcf, '../figures/energySpectrum.png','Resolution', 600)
 % xlim([5e-2, 1e4])           % You can ajust this if you need it
 
 %% Parsival's theorem

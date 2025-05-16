@@ -12,14 +12,14 @@ Nsamples = Inf;      % Size of the dataset for processing
 %% ====> Parameters to be filled <====
 large_l_limit = 5;   
 
-params(1).lambda = 0.1; 
-params(1).L_C    = 0.2;    
+params(1).lambda = 0.0134; 
+params(1).L_C    = 0.2814;    
 
-params(2).lambda = 0.1;
-params(2).L_C    = 0.2;
+params(2).lambda = 0.0101;
+params(2).L_C    = 0.3402;
 
-params(3).lambda = 0.1;
-params(3).L_C    = 0.2;
+params(3).lambda = 0.0092;
+params(3).L_C    = 0.4002;
 
 warning('Make sure to fill in the relevant values!');
 
@@ -73,3 +73,4 @@ for i = 1:3
         'Interpreter', 'latex', 'fontsize', 10, ...
         'LabelVerticalAlignment', 'bottom', 'HandleVisibility', 'off');
 end
+exportgraphics(gcf, '../figures/flatness.png', 'Resolution',600)
