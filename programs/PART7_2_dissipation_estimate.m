@@ -46,6 +46,7 @@ num = 100;
 %l = logspace(log10(params(1).lambda), log10(params(1).L_C), num); % We create values in the inertial range
 l = logspace(log10(2e-2), log10(2e-1), num); % We create values within the inertial range
 
+ft = fittype('a*x');
 
 for i = 1:length(files)
     % --- Load and preprocess data ---
@@ -59,51 +60,58 @@ for i = 1:length(files)
     % Compute the third-order structure function:
     str_fct(i).S3 = structure_function(u, l, f, U, 3);
 
-    g = fit(((-4/5).*l)', str_fct(i).S3', 'poly1');
+    % g = fit(((-4/5).*l)', str_fct(i).S3', 'poly1');
+    g = fit(((-4/5).*l)', str_fct(i).S3', ft);
+
     params(i).gS3 = g;
     params(i).epsilon_S3 = g(1);
 
     g = fit(((2.1^(2/3)).*l)', ((str_fct(i).S2).^(2/3))', 'poly1');
+    % g = fit(((2.1^(2/3)).*l)', ((str_fct(i).S2).^(2/3))', ft);
     params(i).gS2 = g;
     params(i).epsilon_S2 = g(1);
 end
 
 %% Plot the third order structure function
+lines = ['--', ':', "-."];
+lgd = {'Data 1', 'Data 2', 'Data 3','Fit 1', 'Fit 2', 'Fit 3'};
+
+
 figure;
-x = -4/5*l;
+x = -4/5*linspace(0, max(l), num);
 for i=1:3
     plot(-4/5*l, str_fct(i).S3, LineWidth=1.5);
     hold on
-    legend({'Data 1', 'Data 2','Data 3'})
     xlabel('$- \frac{4}{5} l$', 'Interpreter','latex')
     ylabel('$S_3(l)$', 'Interpreter','latex')
 end
 
 for i=1:3
     fit = params(i).gS3;
-    plot(x,fit(x), Color='black', LineStyle='--');
+    plot(x,fit(x), Color='black', LineStyle=lines(i));
     hold on
 end
-
+legend(lgd, "Location","southeast")
+xlim([min(x), max(x)])
 exportgraphics(gcf, '../figures/epsilon_S3.png', 'Resolution',600)
 
 
 %% Plot the second order structure function
 figure;
 for i=1:3
-    plot(2.1^(2/3)*l, (str_fct(i).S2).^(2/3));
+    plot(2.1^(2/3)*l, (str_fct(i).S2).^(2/3), LineWidth=1.5);
     hold on
-    legend({'Data 1', 'Data 2', 'Data 3'})
     xlabel('$C_2^{2/3} l$', 'Interpreter','latex')
     ylabel('$S_2^{2/3}(l)$', 'Interpreter','latex')
 end
 
-x = 2.1^(2/3)*l;
+x = 2.1^(2/3)*linspace(0, max(l), num);
 for i=1:3
     fit = params(i).gS2;
-    plot(x,fit(x), Color='black', LineStyle='--');
+    plot(x,fit(x), Color='black', LineStyle=lines(i));
     hold on
 end
+legend(lgd, "Location","southeast")
 
 exportgraphics(gcf, '../figures/epsilon_S2.png', 'Resolution',600)
 

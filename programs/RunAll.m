@@ -18,18 +18,9 @@ for k = 1:length(files)
         continue;
     end
 
-    % Vérifie si c'est une fonction (on ignore)
-    % fileText = fileread(files(k).name);
-    % if contains(fileText, 'function')
-    %     msgbox(['Ignoré (fonction détectée) : ', files(k).name], 'Info', 'warn');
-    %     pause(1.5); % Laisse le temps de lire
-    %     continue;
-    % end
-
     % Affiche une boîte de dialogue avant d'exécuter le script
     h= msgbox(['Exécution de : ', files(k).name], 'Exécution en cours');
     pause(1.5); % Pause pour permettre de lire le message
-    
 
     try
         run(files(k).name);

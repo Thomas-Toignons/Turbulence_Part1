@@ -91,7 +91,7 @@ params(3).Lint_e = 2*pi * (4)^-1;
 
 % Labels
 xlabel('$k$ [m$^{-1}$]', 'Interpreter', 'latex')
-ylabel('$E(k) [\mathrm{m}^3 \mathrm{s}^{-2}]$', 'Interpreter', 'latex')
+ylabel('$E(k)~[\mathrm{m}^3 \mathrm{s}^{-2}]$', 'Interpreter', 'latex')
 legend('Interpreter', 'latex')
 
 % Plot correlation length scales Lci

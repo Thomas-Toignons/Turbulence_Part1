@@ -61,7 +61,7 @@ for k = 1:3
 
             % Legend
             if i == 2
-                legend('Dataset PDF', 'Gaussian', 'Interpreter', 'latex', 'fontsize', 11); 
+                legend('Dataset PDF', 'Gaussian', 'Interpreter', 'latex', 'fontsize', 11, "Location", "southeast", "BackgroundAlpha", 0.8); 
             end
 
             title(['$l=', num2str(l(i)), '\;\mathrm{m}$'], 'Interpreter', 'latex', 'fontsize', 14);
@@ -74,6 +74,7 @@ for k = 1:3
             end
             sgtitle(['Dataset ', num2str(k), ' - ', y_label], ...
                     'Interpreter', 'latex', 'fontsize', 14);
+            exportgraphics(gcf, ['../figures/Dataset ', num2str(k), ' - ', y_label, '.png'], "Resolution",600)
 
     end
 end
