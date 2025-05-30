@@ -10,7 +10,7 @@ params(3).name = 'veldata3.txt';
 Nsamples = Inf;      % Size of the dataset for processing
 
 %% ====> Parameters to be filled <====
-large_l_limit = 5;   
+large_l_limit = 3.1;   
 
 params(1).lambda = 0.0134; 
 params(1).L_C    = 0.2814;    

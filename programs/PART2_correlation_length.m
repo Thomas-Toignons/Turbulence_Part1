@@ -82,9 +82,9 @@ end
 
 figure();
 hold on;
-plot(l1(1:lmax_idx1), C1(1:lmax_idx1))
-plot(l2(1:lmax_idx2), C2(1:lmax_idx2))
-plot(l3(1:lmax_idx3), C3(1:lmax_idx3))
+plot(l1(1:lmax_idx1), C1(1:lmax_idx1), 'linewidth', 2)
+plot(l2(1:lmax_idx2), C2(1:lmax_idx2), 'linewidth', 2)
+plot(l3(1:lmax_idx3), C3(1:lmax_idx3), 'linewidth', 2)
 plot([0, l1(lmax_idx1)], 1 / exp(1) * [1, 1], ':k')
 grid on;
 
@@ -136,9 +136,9 @@ end
 % Plotting
 figure();
 hold on; grid on;
-plot(l1(1:lmax_idx1), Lint_cum1)
-plot(l2(1:lmax_idx2), Lint_cum2)
-plot(l3(1:lmax_idx3), Lint_cum3)
+plot(l1(1:lmax_idx1), Lint_cum1, 'linewidth', 2)
+plot(l2(1:lmax_idx2), Lint_cum2, 'linewidth', 2)
+plot(l3(1:lmax_idx3), Lint_cum3, 'linewidth', 2)
 
 xlabel('$l$ [m]', 'Interpreter', 'latex', 'FontSize', 14)
 ylabel('$\int_0^l  \,C_i (s) \,ds $ [m]', 'Interpreter', 'latex', ...
